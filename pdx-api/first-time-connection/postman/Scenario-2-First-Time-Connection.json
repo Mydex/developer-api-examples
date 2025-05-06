@@ -1,0 +1,195 @@
+{
+  "info": {
+    "name": "Scenario 2 - Mydex First Time Connection", 
+    "_postman_id": "abcd1234-abcd-1234-abcd-123456abcdef",
+    "description": "Creates a link to complete First Time Connection (a.k.a the Data Sharing Agreement) with your Dedicated Connection.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get a Short Access Token and set Connection Token Hash",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = JSON.parse(responseBody);",
+              "console.log(\"Short token hash is \" + jsonData);",
+              "pm.collectionVariables.set(\"short_access_token\", jsonData);",
+	      "var authentication_hash = CryptoJS.SHA512(jsonData + pm.collectionVariables.get(\"connection_token\")).toString();",
+              "pm.collectionVariables.set(\"authentication_hash\", authentication_hash);",
+              "console.log(\"Connection Token Hash is \" + pm.collectionVariables.get(\"authentication_hash\"));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://sbx-api.mydex.org/access-token/45678",
+          "protocol": "https",
+          "host": [
+            "sbx-api",
+            "mydex",
+            "org"
+          ],
+          "path": [
+            "access-token",
+            "45678"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get an OAuth2 Access Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = JSON.parse(responseBody);",
+              "pm.collectionVariables.set(\"oauth_access_token\", jsonData.access_token);",
+              "console.log(jsonData);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{oauth_client_id}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{oauth_client_secret}}",
+              "type": "string"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "grant_type",
+              "value": "client_credentials"
+            },
+            {
+              "key": "scope",
+              "value": "mydex:pdx"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://sbx-op.mydexid.org/oauth2/token",
+          "protocol": "https",
+          "host": [
+            "sbx-op",
+            "mydexid",
+            "org"
+          ],
+          "path": [
+            "oauth2",
+            "token"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get link for member to complete first time connection",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = JSON.parse(responseBody);",
+              "console.log(\"The registration link is \" + jsonData);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{oauth_access_token}}"
+          },
+          {
+            "key": "Authentication",
+            "value": "{{authentication_hash}}"
+          },
+          {
+            "key": "Short-Access-Token",
+            "value": "{{short_access_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"mydexid\": \"johncitizen\",\n  \"connection_nid\": \"45678\",\n  \"connection_token_hash\": \"{{connection_token_hash}}\",\n  \"return_to\": \"https://example.com/hello-world\"\n}"
+        },
+        "url": {
+          "raw": "https://sbx-api.mydex.org/api/connection",
+          "protocol": "https",
+          "host": [
+            "sbx-api",
+            "mydex",
+            "org"
+          ],
+          "path": [
+            "api",
+            "connection"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "oauth_client_id",
+      "value": "abcd1234-abcd-1234-abcd-123456abcdef"
+    },
+    {
+      "key": "oauth_client_secret",
+      "value": "CHANGEME"
+    },
+    {
+      "key": "connection_token",
+      "value": "abcdefghijklmnopqrstuvwxyz123456789"
+    },
+    {
+      "key": "connection_token_hash",
+      "value": "213a297095250372220dbe478a0dc036d80879d1bfe3e62573199511b33bc17e"
+    },
+    {
+      "key": "authentication_hash",
+      "value": ""
+    },
+    {
+      "key": "short_access_token",
+      "value": ""
+    },
+    {
+      "key": "oauth_access_token",
+      "value": ""
+    }
+  ]
+}

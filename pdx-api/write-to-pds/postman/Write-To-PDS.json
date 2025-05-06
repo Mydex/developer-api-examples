@@ -1,0 +1,179 @@
+{
+  "info": {
+    "name": "Write to PDS", 
+    "_postman_id": "abcd1234-abcd-1234-abcd-123456abcdef",
+    "description": "Writes a record to the ds_referrals dataset.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get an OAuth2 Access Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = JSON.parse(responseBody);",
+              "pm.collectionVariables.set(\"oauth_access_token\", jsonData.access_token);",
+              "console.log(jsonData);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{oauth_client_id}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{oauth_client_secret}}",
+              "type": "string"
+            }
+          ]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "grant_type",
+              "value": "client_credentials"
+            },
+            {
+              "key": "scope",
+              "value": "mydex:pdx"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://sbx-op.mydexid.org/oauth2/token",
+          "protocol": "https",
+          "host": [
+            "sbx-op",
+            "mydexid",
+            "org"
+          ],
+          "path": [
+            "oauth2",
+            "token"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Write record to ds_referrals dataset",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = JSON.parse(responseBody);",
+              "console.log(\"The response is \" + jsonData);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{oauth_access_token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"ds_referrals\": {\n        \"created_timestamp\": \"1642137822\",\n        \"updated_timestamp\": \"1642137822\",\n        \"service_name\": \"Service Test\",\n        \"service_description\": \"Description test\",\n        \"service_url\": \"test.com\",\n        \"service_email\": \"test@email.com\",\n        \"contact_name\": \"John Smith\",\n        \"contact_title\": \"Manager\",\n        \"contact_number\": \"0123456788\",\n        \"referrer_name\": \"Service Test\",\n        \"status\": \"In Progress\",\n        \"external_id\": \"123\",\n        \"service_id\": \"1\",\n        \"start_time\": \"1642137822\",\n        \"end_time\": \"1642137822\",\n        \"is_processed\": \"1\",\n        \"complete_time\": \"1642137822\",\n        \"memo\": \"Note test\",\n        \"duration\": \"12\",\n        \"referree_background\": \"The first day that we attended is the first day that we have started to introduce ourselves to friends and families.\",\n        \"referree_requirements\": \"Fruit, vegetables, legumes (e.g. lentils and beans), nuts and whole grains\",\n        \"referree_availability\": \"{ \\\"AM\\\": [ \\\"Monday\\\", \\\"Friday\\\" ], \\\"PM\\\": [ \\\"Monday\\\", \\\"Tuesday\\\", \\\"Wednesday\\\"] }\",\n        \"type\": \"signpost\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://sbx-api.mydex.org/api/pds/transaction?uid={{MEMBER_UID}}&key={{MEMBER_KEY}}&con_id={{CONNECTION_ID}}&source_type=connection&dataset=ds_referrals&instance=0",
+          "protocol": "https",
+          "host": [
+            "sbx-api",
+            "mydex",
+            "org"
+          ],
+          "path": [
+            "api",
+            "pds",
+            "transaction"
+          ],
+          "query": [
+            {
+              "key": "uid",
+              "value": "{{MEMBER_UID}}"
+            },
+            {
+              "key": "key",
+              "value": "{{MEMBER_KEY}}"
+            },
+            {
+              "key": "con_id",
+              "value": "{{CONNECTION_ID}}"
+            },
+            {
+              "key": "source_type",
+              "value": "connection"
+            },
+            {
+              "key": "dataset",
+              "value": "ds_referrals"
+            },
+            {
+              "key": "instance",
+              "value": "0"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "oauth_client_id",
+      "value": "abcd1234-abcd-1234-abcd-123456abcdef"
+    },
+    {
+      "key": "oauth_client_secret",
+      "value": "CHANGEME"
+    },
+    {
+      "key": "MEMBER_KEY",
+      "value": "ABCDEFGHIJKLMNOP123456789"
+    },
+    {
+      "key": "MEMBER_UID",
+      "value": "1234"
+    },
+    {
+      "key": "CONNECTION_ID",
+      "value": "1234-45678"
+    },
+    {
+      "key": "oauth_access_token",
+      "value": ""
+    }
+  ]
+}
