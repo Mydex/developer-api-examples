@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "Read from a PDS", 
+    "name": "Write to PDS", 
     "_postman_id": "abcd1234-abcd-1234-abcd-123456abcdef",
-    "description": "Read the records from the ds_personal_details dataset.",
+    "description": "Writes a record to the ds_referrals dataset.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -73,7 +73,7 @@
       }
     },
     {
-      "name": "Read the records from the ds_personal_details dataset",
+      "name": "Write record to ds_referrals dataset",
       "event": [
         {
           "listen": "test",
@@ -87,7 +87,7 @@
         }
       ],
       "request": {
-        "method": "GET",
+        "method": "POST",
         "header": [
           {
             "key": "Authorization",
@@ -98,8 +98,17 @@
             "value": "application/json"
           }
         ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"ds_referrals\": [{\n        \"created_timestamp\": \"1642137822\",\n        \"updated_timestamp\": \"1642137822\",\n        \"service_name\": \"Service Test\",\n        \"service_description\": \"Description test\",\n        \"service_url\": \"test.com\",\n        \"service_email\": \"test@email.com\",\n        \"contact_name\": \"John Smith\",\n        \"contact_title\": \"Manager\",\n        \"contact_number\": \"0123456788\",\n        \"referrer_name\": \"Service Test\",\n        \"status\": \"In Progress\",\n        \"external_id\": \"123\",\n        \"service_id\": \"1\",\n        \"start_time\": \"1642137822\",\n        \"end_time\": \"1642137822\",\n        \"is_processed\": \"1\",\n        \"complete_time\": \"1642137822\",\n        \"memo\": \"Note test\",\n        \"duration\": \"12\",\n        \"referree_background\": \"The first day that we attended is the first day that we have started to introduce ourselves to friends and families.\",\n        \"referree_requirements\": \"Fruit, vegetables, legumes (e.g. lentils and beans), nuts and whole grains\",\n        \"referree_availability\": \"{ \\\"AM\\\": [ \\\"Monday\\\", \\\"Friday\\\" ], \\\"PM\\\": [ \\\"Monday\\\", \\\"Tuesday\\\", \\\"Wednesday\\\"] }\",\n        \"type\": \"signpost\"\n    },{\n        \"created_timestamp\": \"1642137822\",\n        \"updated_timestamp\": \"1642137822\",\n        \"service_name\": \"Careers UK\",\n        \"service_description\": \"We help you find a job\",\n        \"service_url\": \"example.com\",\n        \"service_email\": \"test@example.com\",\n        \"contact_name\": \"Jane Smyth\",\n        \"contact_title\": \"Supervisor\",\n        \"contact_number\": \"0123456788\",\n        \"referrer_name\": \"Careers UK\",\n        \"status\": \"In Progress\",\n        \"external_id\": \"45014\",\n        \"service_id\": \"1\",\n        \"start_time\": \"1642137822\",\n        \"end_time\": \"1642137822\",\n        \"is_processed\": \"1\",\n        \"complete_time\": \"1642137822\",\n        \"memo\": \"Note test\",\n        \"duration\": \"12\",\n        \"referree_background\": \"Seeking job placement.\",\n        \"referree_requirements\": \"Pen, paper, recent copy of curriculum vitae\",\n        \"referree_availability\": \"{ \\\"AM\\\": [ \\\"Monday\\\", \\\"Tuesday\\\" ], \\\"PM\\\": [ \\\"Monday\\\", \\\"Tuesday\\\", \\\"Friday\\\"] }\",\n        \"type\": \"signpost\"\n    }]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
-          "raw": "https://sbx-api.mydex.org/api/pds/pds/{{MEMBER_UID}}.json?key={{MEMBER_KEY}}&con_id={{CONNECTION_ID}}&source_type=connection&dataset=ds_personal_details&instance=0",
+          "raw": "https://sbx-api.mydex.org/api/pds/transaction?uid={{MEMBER_UID}}&key={{MEMBER_KEY}}&con_id={{CONNECTION_ID}}&source_type=connection&dataset=ds_referrals&instance=0",
           "protocol": "https",
           "host": [
             "sbx-api",
@@ -109,10 +118,13 @@
           "path": [
             "api",
             "pds",
-            "pds",
-            "{{MEMBER_UID}}.json"
+            "transaction"
           ],
           "query": [
+            {
+              "key": "uid",
+              "value": "{{MEMBER_UID}}"
+            },
             {
               "key": "key",
               "value": "{{MEMBER_KEY}}"
@@ -127,7 +139,7 @@
             },
             {
               "key": "dataset",
-              "value": "ds_personal_details"
+              "value": "ds_referrals"
             },
             {
               "key": "instance",

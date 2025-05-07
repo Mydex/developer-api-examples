@@ -80,7 +80,7 @@
           "script": {
             "exec": [
               "var jsonData = JSON.parse(responseBody);",
-              "console.log(\"The response is \" + jsonData);"
+              "console.log(jsonData);"
             ],
             "type": "text/javascript"
           }
