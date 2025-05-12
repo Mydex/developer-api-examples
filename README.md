@@ -9,8 +9,8 @@ They are intended for developers who are seeking to integrate their services int
 This repository contains the following top-level folders:
 
  * pdx-api - Examples of how to register MydexIDs and PDS and perform First Time Connection, as well as how to read/write to a PDS once that connection is made
- * idp-api - Examples of how to use OpenIDConnect to register or perform login with a MydexID, as well as how to map a third party IDP such as ScotAccount or myaccount to a MydexID
- * mrd-api - Examples of how to authenticate and use Master Reference Data services
+ * idp-api - (coming soon) Examples of how to use OpenIDConnect to register or perform login with a MydexID, or map third party identity providers to MydexIDs.
+ * mrd-api - (coming soon) Examples of how to authenticate and use Master Reference Data services
 
 
 Inside each of those top-level directories are the following sub-directories:
