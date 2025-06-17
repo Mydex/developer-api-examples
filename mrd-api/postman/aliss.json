@@ -1,0 +1,1291 @@
+{
+	"info": {
+		"_postman_id": "fde1d991-f71c-4b9c-8496-2df2846735a2",
+		"name": "ALISS MRD Examples",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45159715"
+	},
+	"item": [
+		{
+			"name": "Aliss",
+			"item": [
+				{
+					"name": "/aliss/get-services/{service-ids} - single service-id passed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned is the data requested as per service-id\", function() {",
+									"    var URL = require('url');",
+									"    let pathname = URL.parse(request.url).pathname;",
+									"    let id = pathname.split(\"/\").pop();",
+									"    ",
+									"    pm.expect(data[0].id).to.eql(id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/25525a5e-a405-4ddb-bf50-3a32fe005151",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"25525a5e-a405-4ddb-bf50-3a32fe005151"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/aliss/get-services/{service-ids} - multiple service-ids passed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned is the data requested as per service-ids\", function() {",
+									"    var URL = require('url');",
+									"    let pathname = URL.parse(request.url).pathname;",
+									"    let serviceIds = pathname.split(\"/\").pop();",
+									"    let ids = serviceIds.split(\",\").sort();",
+									"    ids.forEach(function(id, index) {",
+									"        pm.expect(data[index].id).to.eql(id);",
+									"    })",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/25525a5e-a405-4ddb-bf50-3a32fe005151,259ea6be-6861-4e45-82ee-5a3ff6eeb6a1",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"25525a5e-a405-4ddb-bf50-3a32fe005151,259ea6be-6861-4e45-82ee-5a3ff6eeb6a1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/aliss/get-services/{service-ids}?order=ASC&order_by=name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Services are in ascending order by 'name'\", function() {",
+									"    let serviceNameArray = [];",
+									"    let sortedArray = [];",
+									"    data.forEach(function(service) {",
+									"        serviceNameArray.push(service.name);",
+									"        sortedArray.push(service.name);",
+									"    })",
+									"",
+									"    sortedArray.sort();",
+									"    pm.expect(serviceNameArray).to.eql(sortedArray);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/25525a5e-a405-4ddb-bf50-3a32fe005151,259ea6be-6861-4e45-82ee-5a3ff6eeb6a1?order=ASC&order_by=name",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"25525a5e-a405-4ddb-bf50-3a32fe005151,259ea6be-6861-4e45-82ee-5a3ff6eeb6a1"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "ASC"
+								},
+								{
+									"key": "order_by",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/aliss/get-services/{service-ids}?order=DESC&order_by=name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Services are in ascending order by 'name'\", function() {",
+									"    let serviceNameArray = [];",
+									"    let reverseSortedArray = [];",
+									"    data.forEach(function(service) {",
+									"        serviceNameArray.push(service.name);",
+									"        reverseSortedArray.push(service.name);",
+									"    })",
+									"",
+									"    reverseSortedArray.sort();",
+									"    reverseSortedArray.reverse();",
+									"    pm.expect(serviceNameArray).to.eql(reverseSortedArray);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/25525a5e-a405-4ddb-bf50-3a32fe005151,259ea6be-6861-4e45-82ee-5a3ff6eeb6a1?order=DESC&order_by=name",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"25525a5e-a405-4ddb-bf50-3a32fe005151,259ea6be-6861-4e45-82ee-5a3ff6eeb6a1"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "DESC"
+								},
+								{
+									"key": "order_by",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/aliss/get-services/search?service-areas=",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response object for param service-areas=S12000020 contains Moray\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    for (var i = 0; i < jsonData.length; i++) {",
+									"        jsonData[i].service_areas.forEach(function(service) {",
+									"            if (service.code == 'S12000020') {",
+									"                pm.expect(service.name).to.eql(\"Moray\");",
+									"            }",
+									"        });",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/search?service-areas=S12000020",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"search"
+							],
+							"query": [
+								{
+									"key": "service-areas",
+									"value": "S12000020"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/aliss/get-services/search?categories",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response object for param categories=osteoporosis contains Osteoporosis\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    console.log(jsonData);",
+									"",
+									"    for (var i = 0; i < jsonData.length; i++) {",
+									"        jsonData[i].categories.forEach(function(category) {",
+									"            if (category.slug == 'osteoporosis') {",
+									"                pm.expect(category.name).to.eql(\"Osteoporosis\");",
+									"            }",
+									"        });",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/search?categories=osteoporosis",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"search"
+							],
+							"query": [
+								{
+									"key": "categories",
+									"value": "osteoporosis"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/aliss/get-services/search?postcode",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response object for param postcode=DD4 6JU matches locality Dundee\", function () {",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    for (var i = 0; i < jsonData.length; i++) {",
+									"        jsonData[i].locations.forEach(function(location) {",
+									"            pm.expect(location.locality).to.eql(\"Dundee\");",
+									"        });",
+									"    }",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/search?postcode=DD4 6JU",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"search"
+							],
+							"query": [
+								{
+									"key": "postcode",
+									"value": "DD4 6JU",
+									"description": " G2 5AH, G2 6QB"
+								},
+								{
+									"key": "postcode",
+									"value": "G1$$$$$",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter where data = something - /aliss/get-services/search?service-areas=S12000020&filters[locations][0][operator]=LIKE&filters[locations][0][field]=postal_code&filters[locations][0][value]=AB32&filters[locations][0][condition]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response object for param service-areas=S12000020 with filter by postcode contains locality westhill\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    for (var i = 0; i < jsonData.length; i++) {",
+									"        jsonData[i].locations.forEach(function(location) {",
+									"            pm.expect(location.locality).to.eql(\"Westhill\");",
+									"        });",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/search?service-areas=S12000020&filters[locations][0][operator]=LIKE&filters[locations][0][field]=postal_code&filters[locations][0][value]=AB32&filters[locations][0][condition]=",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"search"
+							],
+							"query": [
+								{
+									"key": "service-areas",
+									"value": "S12000020"
+								},
+								{
+									"key": "filters[locations][0][operator]",
+									"value": "LIKE"
+								},
+								{
+									"key": "filters[locations][0][field]",
+									"value": "postal_code"
+								},
+								{
+									"key": "filters[locations][0][value]",
+									"value": "AB32"
+								},
+								{
+									"key": "filters[locations][0][condition]",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter where data = something AND other_data = something else, with order by - /aliss/get-services/search?service-areas=S12000020&filters[locations][0][operator]=LIKE&filters[locations][0][field]=postal_code&filters[locations][0][value]=AB32&filters[locat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response object for param service-areas=S12000034 with filter by postcode and categories contains category name activity and postcode starts with AB3\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    for (var i = 0; i < jsonData.length; i++) {",
+									"        jsonData[i].categories.forEach(function(category) {",
+									"            if (category.slug == 'activity') {",
+									"                pm.expect(category.name).to.eql(\"Activity\");",
+									"            }",
+									"        });",
+									"        // Check each location in the current entry",
+									"        for (var j = 0; j < jsonData[i].locations.length; j++) {",
+									"            var location = jsonData[i].locations[j];",
+									"            if (location.postal_code.includes(\"AB3\")) {",
+									"                foundAB3 = true;",
+									"                break; // Exit the loop once we find one occurrence",
+									"            }",
+									"        }",
+									"        // If foundAB3 is true, break out of the outer loop as well",
+									"        if (foundAB3) {",
+									"            break;",
+									"        }",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/search?service-areas=S12000034&filters[locations][0][operator]=LIKE&filters[locations][0][field]=postal_code&filters[locations][0][value]=AB3&filters[locations][0][condition]=AND&filters[categories][1][operator]==&filters[categories][1][field]=slug&filters[categories][1][value]=activity&filters[categories][1][condition]=",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"search"
+							],
+							"query": [
+								{
+									"key": "service-areas",
+									"value": "S12000034"
+								},
+								{
+									"key": "filters[locations][0][operator]",
+									"value": "LIKE"
+								},
+								{
+									"key": "filters[locations][0][field]",
+									"value": "postal_code"
+								},
+								{
+									"key": "filters[locations][0][value]",
+									"value": "AB3"
+								},
+								{
+									"key": "filters[locations][0][condition]",
+									"value": "AND"
+								},
+								{
+									"key": "filters[categories][1][operator]",
+									"value": "="
+								},
+								{
+									"key": "filters[categories][1][field]",
+									"value": "slug"
+								},
+								{
+									"key": "filters[categories][1][value]",
+									"value": "activity"
+								},
+								{
+									"key": "filters[categories][1][condition]",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter order_by, sort /aliss/get-services/search?service-areas=S12000020&filters[locations][0][operator]=LIKE&filters[locations][0][field]=postal_code&filters[locations][0][value]=AB32&filters[locat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response object for param service-areas=S12000034 with filter by postcode and categories, ensure order is returned in DESCending order.\", function () {",
+									"    var result = JSON.parse(responseBody);",
+									"    var _ = require('lodash');",
+									"    var expectedSortedOrder = _.orderBy(pm.response.json(), ['name'],['desc']);",
+									"    pm.expect(result).to.eql(expectedSortedOrder);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/search?service-areas=S12000034&filters[locations][0][operator]=LIKE&filters[locations][0][field]=postal_code&filters[locations][0][value]=AB3&filters[locations][0][condition]=AND&filters[categories][1][operator]==&filters[categories][1][field]=slug&filters[categories][1][value]=activity&filters[categories][1][condition]=&order_by=services-name&order=DESC",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"search"
+							],
+							"query": [
+								{
+									"key": "service-areas",
+									"value": "S12000034"
+								},
+								{
+									"key": "filters[locations][0][operator]",
+									"value": "LIKE"
+								},
+								{
+									"key": "filters[locations][0][field]",
+									"value": "postal_code"
+								},
+								{
+									"key": "filters[locations][0][value]",
+									"value": "AB3"
+								},
+								{
+									"key": "filters[locations][0][condition]",
+									"value": "AND"
+								},
+								{
+									"key": "filters[categories][1][operator]",
+									"value": "="
+								},
+								{
+									"key": "filters[categories][1][field]",
+									"value": "slug"
+								},
+								{
+									"key": "filters[categories][1][value]",
+									"value": "activity"
+								},
+								{
+									"key": "filters[categories][1][condition]",
+									"value": ""
+								},
+								{
+									"key": "order_by",
+									"value": "services-name"
+								},
+								{
+									"key": "order",
+									"value": "DESC"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter where data = something OR other data = something else - /aliss/get-services/search?categories=physical-activity&filters[locations][0][field]=postal_code&filters[locations][0][operator]==&filters[locations][0][value]=G73 3LW&filters[locations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response object for param categories=physical-activity with filter by locations contains either postcode G73 3LW or locality Blantyre\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    for (var i = 0; i < jsonData.length; i++) {",
+									"        pm.expect(jsonData[i].locations.some(function(location) {",
+									"            return location.postal_code == 'G73 3LW' || location.locality == 'Blantyre';",
+									"        })).to.eql(true);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/search?categories=physical-activity&filters[locations][0][field]=postal_code&filters[locations][0][operator]==&filters[locations][0][value]=G73 3LW&filters[locations][0][condition]=OR&filters[locations][1][field]=locality&filters[locations][1][operator]==&filters[locations][1][value]=Blantyre&filters[locations][1][condition]=",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"search"
+							],
+							"query": [
+								{
+									"key": "categories",
+									"value": "physical-activity"
+								},
+								{
+									"key": "filters[locations][0][field]",
+									"value": "postal_code"
+								},
+								{
+									"key": "filters[locations][0][operator]",
+									"value": "="
+								},
+								{
+									"key": "filters[locations][0][value]",
+									"value": "G73 3LW"
+								},
+								{
+									"key": "filters[locations][0][condition]",
+									"value": "OR"
+								},
+								{
+									"key": "filters[locations][1][field]",
+									"value": "locality"
+								},
+								{
+									"key": "filters[locations][1][operator]",
+									"value": "="
+								},
+								{
+									"key": "filters[locations][1][value]",
+									"value": "Blantyre"
+								},
+								{
+									"key": "filters[locations][1][condition]",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter where data LIKE something OR other data = something else - /aliss/get-services/search?categories=physical-activity&filters[locations][0][field]=postal_code&filters[locations][0][operator]==&filters[locations][0][value]=G73 3LW&filters[locations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response object for param categories=physical-activity with filter by service area contains either Dumfries in its name or is equal to Argyll and Bute\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    for (var i = 0; i < jsonData.length; i++) {",
+									"        pm.expect(jsonData[i].service_areas.some(function(area) {",
+									"            return area.name.includes('Dumfries') || area.name == 'Argyll and Bute';",
+									"        })).to.eql(true);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/search?categories=physical-activity&filters[service_areas][0][field]=name&filters[service_areas][0][operator]=LIKE&filters[service_areas][0][value]=Dumfries&filters[service_areas][0][condition]=OR&filters[service_areas][1][field]=name&filters[service_areas][1][operator]==&filters[service_areas][1][value]=Argyll and Bute&filters[service_areas][1][condition]=&order_by=services-name",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"search"
+							],
+							"query": [
+								{
+									"key": "categories",
+									"value": "physical-activity"
+								},
+								{
+									"key": "filters[service_areas][0][field]",
+									"value": "name"
+								},
+								{
+									"key": "filters[service_areas][0][operator]",
+									"value": "LIKE"
+								},
+								{
+									"key": "filters[service_areas][0][value]",
+									"value": "Dumfries"
+								},
+								{
+									"key": "filters[service_areas][0][condition]",
+									"value": "OR"
+								},
+								{
+									"key": "filters[service_areas][1][field]",
+									"value": "name"
+								},
+								{
+									"key": "filters[service_areas][1][operator]",
+									"value": "="
+								},
+								{
+									"key": "filters[service_areas][1][value]",
+									"value": "Argyll and Bute"
+								},
+								{
+									"key": "filters[service_areas][1][condition]",
+									"value": ""
+								},
+								{
+									"key": "order_by",
+									"value": "services-name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter where different values can be found IN same field - /aliss/get-services/search?service-areas=S12000045&filters[categories][0][operator]=IN&filters[categories][0][field]=slug&filters[categories][0][value]=children-families,rights-representation&filt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response object for param service-areas=S12000045 with filter by categories can contain either children-families or rights-representation values\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    ",
+									"    for (var i = 0; i < jsonData.length; i++) {",
+									"        pm.expect(jsonData[i].categories.some(function(category) {",
+									"            return category.slug === 'children-families' || category.slug === 'rights-representation'",
+									"        })).to.eql(true);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/search?service-areas=S12000045&filters[categories][0][operator]=IN&filters[categories][0][field]=slug&filters[categories][0][value]=children-families,rights-representation&filters[categories][0][condition]=",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"search"
+							],
+							"query": [
+								{
+									"key": "service-areas",
+									"value": "S12000045"
+								},
+								{
+									"key": "filters[categories][0][operator]",
+									"value": "IN"
+								},
+								{
+									"key": "filters[categories][0][field]",
+									"value": "slug"
+								},
+								{
+									"key": "filters[categories][0][value]",
+									"value": "children-families,rights-representation"
+								},
+								{
+									"key": "filters[categories][0][condition]",
+									"value": ""
+								},
+								{
+									"key": "order_by",
+									"value": "services-name",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filter xml return format - /aliss/get-services/search?categories=physical-activity&filters[locations][0][field]=postal_code&filters[locations][0][operator]==&filters[locations][0][value]=G73 3LW&filters[locations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type is text/html\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"text/html; charset=UTF-8\");",
+									"});",
+									"",
+									"pm.test(\"Response object returned includes xml line\", function () {",
+									"    pm.expect(pm.response.text()).to.include('<?xml version=\"1.0\"?>');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "aliss",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/aliss/get-services/search?categories=physical-activity&filters[service_areas][0][field]=name&filters[service_areas][0][operator]=LIKE&filters[service_areas][0][value]=Dumfries&filters[service_areas][0][condition]=OR&filters[service_areas][1][field]=name&filters[service_areas][1][operator]==&filters[service_areas][1][value]=Argyll and Bute&filters[service_areas][1][condition]=&order_by=services-name&format=xml",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"aliss",
+								"get-services",
+								"search"
+							],
+							"query": [
+								{
+									"key": "categories",
+									"value": "physical-activity"
+								},
+								{
+									"key": "filters[service_areas][0][field]",
+									"value": "name"
+								},
+								{
+									"key": "filters[service_areas][0][operator]",
+									"value": "LIKE"
+								},
+								{
+									"key": "filters[service_areas][0][value]",
+									"value": "Dumfries"
+								},
+								{
+									"key": "filters[service_areas][0][condition]",
+									"value": "OR"
+								},
+								{
+									"key": "filters[service_areas][1][field]",
+									"value": "name"
+								},
+								{
+									"key": "filters[service_areas][1][operator]",
+									"value": "="
+								},
+								{
+									"key": "filters[service_areas][1][value]",
+									"value": "Argyll and Bute"
+								},
+								{
+									"key": "filters[service_areas][1][condition]",
+									"value": ""
+								},
+								{
+									"key": "order_by",
+									"value": "services-name"
+								},
+								{
+									"key": "format",
+									"value": "xml"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.sendRequest({",
+					"    url: pm.environment.get(\"OAUTH_URL\")+\"/oauth2/token\",",
+					"    method: 'POST',",
+					"    header: {",
+					"        'Accept': 'application/json',",
+					"        'Content-Type': 'application/x-www-form-urlencoded',",
+					"        'Authorization': \"Basic \"+pm.environment.get(\"OAUTH_MRD_CLIENT_AUTH_BASIC\")",
+					"    },",
+					"    body: {",
+					"        mode: 'urlencoded',",
+					"        urlencoded: [",
+					"            {key: 'grant_type', value: 'client_credentials'},",
+					"            {key: 'scope', value: 'aliss'}",
+					"        ]",
+					"    }",
+					"},",
+					"    (err, res) => {",
+					"        // Set ACCESS_TOKEN",
+					"        pm.variables.set(\"ACCESS_TOKEN\", res.json().access_token)",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+        "variable": [
+                {
+                        "key": "MRD_API_URL",
+                        "value": "https://api-mrd.mydex.org"
+                }
+        ]
+}

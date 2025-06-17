@@ -1,0 +1,1774 @@
+{
+	"info": {
+		"_postman_id": "fde1d991-f71c-4b9c-8496-2df2846735a2",
+		"name": "NHS Live-Well MRD API Examples",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45159715"
+	},
+	"item": [
+		{
+			"name": "Livewell",
+			"item": [
+				{
+					"name": "/live-well",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response contains array 'routes'\", function() {",
+									"    var data = pm.response.json();",
+									"    pm.expect(data).to.have.property(\"routes\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well/{param-1}",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned maps to the data requested in the pathname\", function() {",
+									"    var URL = require('url');",
+									"    var pathname = URL.parse(request.url).pathname;",
+									"    pm.expect(data.route_mapping).to.eql(pathname + '/');",
+									"});",
+									"",
+									"pm.test(\"Top level url is mrd hosted\", function() {",
+									"    pm.expect(data.url).includes(pm.environment.get('MRD_API_URL'));",
+									"",
+									"});",
+									"",
+									"pm.test(\"hasPart url for each element is mrd hosted\", function() {",
+									"    data.hasPart.forEach(function(item) {",
+									"        pm.expect(item.url).includes(pm.environment.get('MRD_API_URL'));",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"breadcrumbs url for each element is mrd hosted\", function() {",
+									"    data.breadcrumb.itemListElement.forEach(function(item) {",
+									"        pm.expect(item.item['@id']).includes(pm.environment.get('MRD_API_URL'));",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"mainEntityOfPage inner mainEntityOfPage elements urls are mrd hosted\", function() {",
+									"    data.mainEntityOfPage.forEach(function(item) {",
+									"        item.mainEntityOfPage.forEach(function(item) {",
+									"            if (",
+									"                item.url.includes('/conditions/')",
+									"                || item.url.includes('/live-well/')",
+									"                || item.url.includes('/mental-health/')",
+									"                || item.url.includes('/medicines/')",
+									"                || item.url.includes('/pregnancy/')",
+									"            )",
+									"            {",
+									"                pm.expect(item.url).includes(pm.environment.get('MRD_API_URL'));",
+									"            }",
+									"        });",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/eat-well",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"eat-well"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well/{param-1}?no_html=true",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned maps to the data requested in the pathname\", function() {",
+									"    var URL = require('url');",
+									"    var pathname = URL.parse(request.url).pathname;",
+									"    pm.expect(data.route_mapping).to.eql(pathname + '/');",
+									"});",
+									"",
+									"pm.test(\"Top level url is mrd hosted\", function() {",
+									"    pm.expect(data.url).includes(pm.environment.get('MRD_API_URL'));",
+									"",
+									"});",
+									"",
+									"pm.test(\"breadcrumbs url for each element is mrd hosted\", function() {",
+									"    data.breadcrumb.itemListElement.forEach(function(item) {",
+									"        pm.expect(item.item['@id']).includes(pm.environment.get('MRD_API_URL'));",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"mainEntityOfPage inner mainEntityOfPage elements urls are mrd hosted\", function() {",
+									"    data.mainEntityOfPage.forEach(function(item) {",
+									"        item.mainEntityOfPage.forEach(function(subItem) {",
+									"            if (",
+									"                subItem.url.includes('/conditions/')",
+									"                || subItem.url.includes('/live-well/')",
+									"                || subItem.url.includes('/mental-health/')",
+									"                || subItem.url.includes('/medicines/')",
+									"                || subItem.url.includes('/pregnancy/')",
+									"            )",
+									"            {",
+									"                pm.expect(subItem.url).includes(pm.environment.get('MRD_API_URL'));",
+									"            }",
+									"        });",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/eat-well?no_html=true",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"eat-well"
+							],
+							"query": [
+								{
+									"key": "no_html",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well/{param-1}?nhs_links=true",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned maps to the data requested in the pathname\", function() {",
+									"    var URL = require('url');",
+									"    var pathname = URL.parse(request.url).pathname;",
+									"    pm.expect(data.route_mapping).to.eql(pathname + '/');",
+									"});",
+									"",
+									"pm.test(\"Top level url is nhs website hosted\", function() {",
+									"    pm.expect(data.url).includes(\"https://www.nhs.uk\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"breadcrumbs url for each element is nhs website hosted\", function() {",
+									"    data.breadcrumb.itemListElement.forEach(function(item) {",
+									"        pm.expect(item.item['@id']).includes(\"https://www.nhs.uk\");",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"mainEntityOfPage inner mainEntityOfPage elements urls are nhs website hosted\", function() {",
+									"    data.mainEntityOfPage.forEach(function(item) {",
+									"        item.mainEntityOfPage.forEach(function(item) {",
+									"            if (",
+									"                item.url.includes('/conditions/')",
+									"                || item.url.includes('/live-well/')",
+									"                || item.url.includes('/mental-health/')",
+									"                || item.url.includes('/medicines/')",
+									"                || item.url.includes('/pregnancy/')",
+									"            )",
+									"            {",
+									"                pm.expect(item.url).includes(\"https://www.nhs.uk\");",
+									"            }",
+									"        });",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/eat-well?nhs_links=true",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"eat-well"
+							],
+							"query": [
+								{
+									"key": "nhs_links",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well/{param-1}?nhs_links=true&no_html=true",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned maps to the data requested in the pathname\", function() {",
+									"    var URL = require('url');",
+									"    var pathname = URL.parse(request.url).pathname;",
+									"    pm.expect(data.route_mapping).to.eql(pathname + '/');",
+									"});",
+									"",
+									"pm.test(\"Top level url is nhs website hosted\", function() {",
+									"    pm.expect(data.url).includes(\"https://www.nhs.uk\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"breadcrumbs url for each element is nhs website hosted\", function() {",
+									"    data.breadcrumb.itemListElement.forEach(function(item) {",
+									"        pm.expect(item.item['@id']).includes(\"https://www.nhs.uk\");",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"mainEntityOfPage inner mainEntityOfPage elements urls are nhs website hosted\", function() {",
+									"    data.mainEntityOfPage.forEach(function(item) {",
+									"        item.mainEntityOfPage.forEach(function(subItem) {",
+									"            if (",
+									"                subItem.url.includes('/conditions/')",
+									"                || subItem.url.includes('/live-well/')",
+									"                || subItem.url.includes('/mental-health/')",
+									"                || subItem.url.includes('/medicines/')",
+									"                || subItem.url.includes('/pregnancy/')",
+									"            )",
+									"            {",
+									"                pm.expect(subItem.url).includes(\"https://www.nhs.uk\");",
+									"            }",
+									"        });",
+									"    });",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/eat-well?nhs_links=true&no_html=true",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"eat-well"
+							],
+							"query": [
+								{
+									"key": "nhs_links",
+									"value": "true"
+								},
+								{
+									"key": "no_html",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well/{param-1}/{param-2}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned maps to the data requested in the pathname\", function() {",
+									"    var URL = require('url');",
+									"    var pathname = URL.parse(request.url).pathname;",
+									"    pm.expect(data.route_mapping).to.eql(pathname + '/');",
+									"});",
+									"",
+									"pm.test(\"Top level url is mrd hosted\", function() {",
+									"    pm.expect(data.url).includes(pm.environment.get('MRD_API_URL'));",
+									"",
+									"});",
+									"",
+									"pm.test(\"breadcrumbs url for each element is mrd hosted\", function() {",
+									"    data.breadcrumb.itemListElement.forEach(function(item) {",
+									"        pm.expect(item.item['@id']).includes(pm.environment.get('MRD_API_URL'));",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"relatedLink array elements url are mrd hosted\", function() {",
+									"    if (data.relatedLink) {",
+									"        data.relatedLink.forEach(function(item) {",
+									"            pm.expect(item.url).includes(pm.environment.get('MRD_API_URL'));",
+									"        });",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"mainEntityOfPage inner mainEntityOfPage and hasPart has links array, and if links array is not empty, then 'text' contains index-link key\", function() {",
+									"    data.mainEntityOfPage.forEach(function(item) {",
+									"        item.mainEntityOfPage.forEach(function(subItem) {",
+									"            pm.expect(subItem).to.have.property(\"links\");",
+									"            if (subItem.links.length > 0) {",
+									"                pm.expect(subItem.text).includes(\"index-link\");",
+									"            }",
+									"        });",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/eat-well/digestive-health",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"eat-well",
+								"digestive-health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well/{param-1}/{param-2}?no_html=true",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned maps to the data requested in the pathname\", function() {",
+									"    var URL = require('url');",
+									"    var pathname = URL.parse(request.url).pathname;",
+									"    pm.expect(data.route_mapping).to.eql(pathname + '/');",
+									"});",
+									"",
+									"pm.test(\"Top level url is mrd hosted\", function() {",
+									"    pm.expect(data.url).includes(pm.environment.get('MRD_API_URL'));",
+									"",
+									"});",
+									"",
+									"pm.test(\"breadcrumbs url for each element is mrd hosted\", function() {",
+									"    data.breadcrumb.itemListElement.forEach(function(item) {",
+									"        pm.expect(item.item['@id']).includes(pm.environment.get('MRD_API_URL'));",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"relatedLink array elements url are mrd hosted\", function() {",
+									"    if (data.relatedLink) {",
+									"        data.relatedLink.forEach(function(item) {",
+									"            pm.expect(item.url).includes(pm.environment.get('MRD_API_URL'));",
+									"        });",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"mainEntityOfPage inner mainEntityOfPage and hasPart has links array, and if links array is not empty, then keys 'mrd_api_link' contain values with mrd endpoint\", function() {",
+									"    data.mainEntityOfPage.forEach(function(item) {",
+									"        item.mainEntityOfPage.forEach(function(subItem) {",
+									"            if (subItem['@type'] != \"VideoObject\") {",
+									"                pm.expect(subItem).to.have.property(\"links\");",
+									"                if (subItem.links.length > 0) {",
+									"                    Object.keys(subItem.links).forEach(key => {",
+									"                            if (subItem.links[key].hasOwnProperty('mrd_api_link')) {",
+									"                                pm.expect(subItem.links[key].mrd_api_link).includes(pm.environment.get('MRD_API_URL'));",
+									"                            } else {",
+									"                                pm.expect(subItem.links[key].link).to.not.include(pm.environment.get('MRD_API_URL'));",
+									"                            }",
+									"                        });",
+									"                }",
+									"            }",
+									"        });",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/eat-well/digestive-health?no_html=true",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"eat-well",
+								"digestive-health"
+							],
+							"query": [
+								{
+									"key": "no_html",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well/{param-1}/{param-2}?nhs_links=true",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned maps to the data requested in the pathname\", function() {",
+									"    var URL = require('url');",
+									"    var pathname = URL.parse(request.url).pathname;",
+									"    pm.expect(data.route_mapping).to.eql(pathname + '/');",
+									"});",
+									"",
+									"pm.test(\"Top level url is nhs website hosted\", function() {",
+									"    pm.expect(data.url).includes(\"https://www.nhs.uk\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"breadcrumbs url for each element is nhs website hosted\", function() {",
+									"    data.breadcrumb.itemListElement.forEach(function(item) {",
+									"        pm.expect(item.item['@id']).includes(\"https://www.nhs.uk\");",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"relatedLink array elements url are nhs website hosted\", function() {",
+									"    if (data.relatedLink) {",
+									"        data.relatedLink.forEach(function(item) {",
+									"            pm.expect(item.url).includes(\"https://www.nhs.uk\");",
+									"        });",
+									"    }",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/eat-well/food-types?nhs_links=true",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"eat-well",
+								"food-types"
+							],
+							"query": [
+								{
+									"key": "nhs_links",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well/{param-1}/{param-2}?no_html=true&nhs_links=true",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned maps to the data requested in the pathname\", function() {",
+									"    var URL = require('url');",
+									"    var pathname = URL.parse(request.url).pathname;",
+									"    pm.expect(data.route_mapping).to.eql(pathname + '/');",
+									"});",
+									"",
+									"pm.test(\"Top level url is nhs website hosted\", function() {",
+									"    pm.expect(data.url).includes(\"https://www.nhs.uk\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"breadcrumbs url for each element is nhs website hosted\", function() {",
+									"    data.breadcrumb.itemListElement.forEach(function(item) {",
+									"        pm.expect(item.item['@id']).includes(\"https://www.nhs.uk\");",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"relatedLink array elements url are nhs website hosted\", function() {",
+									"    if (data.relatedLink) {",
+									"        data.relatedLink.forEach(function(item) {",
+									"            pm.expect(item.url).includes(\"https://www.nhs.uk\");",
+									"        });",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"mainEntityOfPage inner mainEntityOfPage and hasPart has links array.\", function() {",
+									"    data.mainEntityOfPage.forEach(function(item) {",
+									"        item.mainEntityOfPage.forEach(function(subItem) {",
+									"            if (subItem['@type'] != \"VideoObject\") {",
+									"                pm.expect(subItem).to.have.property(\"links\");",
+									"            }",
+									"        });",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/eat-well/food-types?no_html=true&nhs_links=true",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"eat-well",
+								"food-types"
+							],
+							"query": [
+								{
+									"key": "no_html",
+									"value": "true"
+								},
+								{
+									"key": "nhs_links",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well/{param-1}/{param-2}/{param-3}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned maps to the data requested in the pathname\", function() {",
+									"    var URL = require('url');",
+									"    var pathname = URL.parse(request.url).pathname;",
+									"    pm.expect(data.route_mapping).to.eql(pathname + '/');",
+									"});",
+									"",
+									"pm.test(\"Top level url is mrd hosted\", function() {",
+									"    pm.expect(data.url).includes(pm.environment.get('MRD_API_URL'));",
+									"",
+									"});",
+									"",
+									"pm.test(\"breadcrumbs url for each element is mrd hosted\", function() {",
+									"    data.breadcrumb.itemListElement.forEach(function(item) {",
+									"        pm.expect(item.item['@id']).includes(pm.environment.get('MRD_API_URL'));",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"relatedLink array elements url are mrd hosted\", function() {",
+									"    if (data.relatedLink) {",
+									"        data.relatedLink.forEach(function(item) {",
+									"            pm.expect(item.url).includes(pm.environment.get('MRD_API_URL'));",
+									"        });",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"mainEntityOfPage inner mainEntityOfPage and hasPart has links array, and if links array is not empty, then 'text' contains index-link key. If inner mainEntityOfPage has 'acceptedAnswer' it contains a links array and if that links array is not empty, then it's text element contains index-link key. inner hasPart is the same as inner mainEntityOfPage\", function() {",
+									"    data.mainEntityOfPage.forEach(function(item) {",
+									"        item.mainEntityOfPage.forEach(function(subItem) {",
+									"            pm.expect(subItem).to.have.property(\"links\");",
+									"            if (subItem.links.length > 0) {",
+									"                pm.expect(subItem.text).includes(\"index-link\");",
+									"            }",
+									"",
+									"            if (subItem.hasOwnProperty(\"acceptedAnswer\")) {",
+									"                subItem.acceptedAnswer.mainEntity.forEach(function(subSubItem) {",
+									"                    pm.expect(subSubItem).to.have.property(\"links\");",
+									"                    if (subSubItem.links.length > 0) {",
+									"                        pm.expect(subSubItem.text).includes(\"index-link\");",
+									"                    }",
+									"                });",
+									"            }",
+									"        });",
+									"        pm.expect(item.hasPart == item.mainEntityOfPage);",
+									"    });",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/eat-well/food-types/milk-and-dairy-nutrition",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"eat-well",
+								"food-types",
+								"milk-and-dairy-nutrition"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well/{param-1}/{param-2}/{param-3}?no_html=true",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned maps to the data requested in the pathname\", function() {",
+									"    var URL = require('url');",
+									"    var pathname = URL.parse(request.url).pathname;",
+									"    pm.expect(data.route_mapping).to.eql(pathname + '/');",
+									"});",
+									"",
+									"pm.test(\"Top level url is mrd hosted\", function() {",
+									"    pm.expect(data.url).includes(pm.environment.get('MRD_API_URL'));",
+									"",
+									"});",
+									"",
+									"pm.test(\"breadcrumbs url for each element is mrd hosted\", function() {",
+									"    data.breadcrumb.itemListElement.forEach(function(item) {",
+									"        pm.expect(item.item['@id']).includes(pm.environment.get('MRD_API_URL'));",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"relatedLink array elements url are mrd hosted\", function() {",
+									"    if (data.relatedLink) {",
+									"        data.relatedLink.forEach(function(item) {",
+									"            pm.expect(item.url).includes(pm.environment.get('MRD_API_URL'));",
+									"        });",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"mainEntityOfPage inner mainEntityOfPage and hasPart has links array, and if links array is not empty, then keys 'mrd_api_link' contain values with mrd endpoint\", function() {",
+									"    data.mainEntityOfPage.forEach(function(item) {",
+									"        item.mainEntityOfPage.forEach(function(subItem) {",
+									"            pm.expect(subItem).to.have.property(\"links\");",
+									"            if (subItem.links.length > 0) {",
+									"                Object.keys(subItem.links).forEach(key => {",
+									"                    if (subItem.links[key].hasOwnProperty('mrd_api_link')) {",
+									"                        pm.expect(subItem.links[key].mrd_api_link).includes(pm.environment.get('MRD_API_URL'));",
+									"                    } else {",
+									"                        pm.expect(subItem.links[key].link).to.not.include(pm.environment.get('MRD_API_URL'));",
+									"                    }",
+									"                });",
+									"            }",
+									"",
+									"            if (subItem.hasOwnProperty(\"acceptedAnswer\")) {",
+									"                subItem.acceptedAnswer.mainEntity.forEach(function(subSubItem) {",
+									"                    pm.expect(subSubItem).to.have.property(\"links\");",
+									"                    if (subSubItem.links.length > 0) {",
+									"                        Object.keys(subSubItem.links).forEach(key => {",
+									"                            if (subSubItem.links[key].hasOwnProperty('mrd_api_link')) {",
+									"                                pm.expect(subSubItem.links[key].mrd_api_link).includes(pm.environment.get('MRD_API_URL'));",
+									"                            } else {",
+									"                                pm.expect(subSubItem.links[key].link).to.not.include(pm.environment.get('MRD_API_URL'));",
+									"                            }",
+									"                        });",
+									"                    }",
+									"                });",
+									"            }",
+									"        });",
+									"        pm.expect(item.hasPart).to.eql(item.mainEntityOfPage);",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/eat-well/food-types/milk-and-dairy-nutrition?no_html=true",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"eat-well",
+								"food-types",
+								"milk-and-dairy-nutrition"
+							],
+							"query": [
+								{
+									"key": "no_html",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well/{param-1}/{param-2}/{param-3}?nhs_links=true",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned maps to the data requested in the pathname\", function() {",
+									"    var URL = require('url');",
+									"    var pathname = URL.parse(request.url).pathname;",
+									"    pm.expect(data.route_mapping).to.eql(pathname + '/');",
+									"});",
+									"",
+									"pm.test(\"Top level url is nhs website hosted\", function() {",
+									"    pm.expect(data.url).includes(\"https://www.nhs.uk\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"breadcrumbs url for each element is nhs website hosted\", function() {",
+									"    data.breadcrumb.itemListElement.forEach(function(item) {",
+									"        pm.expect(item.item['@id']).includes(\"https://www.nhs.uk\");",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"relatedLink array elements url are nhs website hosted\", function() {",
+									"    if (data.relatedLink) {",
+									"        data.relatedLink.forEach(function(item) {",
+									"            pm.expect(item.url).includes(\"https://www.nhs.uk\");",
+									"        });",
+									"    }",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/eat-well/how-to-eat-a-balanced-diet/eating-a-balanced-diet?nhs_links=true",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"eat-well",
+								"how-to-eat-a-balanced-diet",
+								"eating-a-balanced-diet"
+							],
+							"query": [
+								{
+									"key": "nhs_links",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well/{param-1}/{param-2}/{param-3}?nhs_links=true&no_html=true",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();",
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function() {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"The data returned maps to the data requested in the pathname\", function() {",
+									"    var URL = require('url');",
+									"    var pathname = URL.parse(request.url).pathname;",
+									"    pm.expect(data.route_mapping).to.eql(pathname + '/');",
+									"});",
+									"",
+									"pm.test(\"Top level url is nhs website hosted\", function() {",
+									"    pm.expect(data.url).includes(\"https://www.nhs.uk\");",
+									"",
+									"});",
+									"",
+									"pm.test(\"breadcrumbs url for each element is nhs website hosted\", function() {",
+									"    data.breadcrumb.itemListElement.forEach(function(item) {",
+									"        pm.expect(item.item['@id']).includes(\"https://www.nhs.uk\");",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"relatedLink array elements url are nhs website hosted\", function() {",
+									"    data.relatedLink.forEach(function(item) {",
+									"        pm.expect(item.url).includes(\"https://www.nhs.uk\");",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"mainEntityOfPage inner mainEntityOfPage and hasPart has links array\", function() {",
+									"    data.mainEntityOfPage.forEach(function(item) {",
+									"        item.mainEntityOfPage.forEach(function(subItem) {",
+									"            if (subItem['@type'] != \"VideoObject\") {",
+									"                pm.expect(subItem).to.have.property(\"links\");",
+									"",
+									"                if (subItem.hasOwnProperty(\"acceptedAnswer\")) {",
+									"                    subItem.acceptedAnswer.mainEntity.forEach(function(subSubItem) {",
+									"                        pm.expect(subSubItem).to.have.property(\"links\");",
+									"                    });",
+									"                }",
+									"            }",
+									"        });",
+									"        pm.expect(item.hasPart).to.eql(item.mainEntityOfPage);",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/eat-well/how-to-eat-a-balanced-diet/the-vegan-diet?nhs_links=true&no_html=true",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"eat-well",
+								"how-to-eat-a-balanced-diet",
+								"the-vegan-diet"
+							],
+							"query": [
+								{
+									"key": "nhs_links",
+									"value": "true"
+								},
+								{
+									"key": "no_html",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well search on single keyword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Searched for value is found in the description property of the response content\", function () {",
+									"    let data = pm.response.json();",
+									"    for (let key in data) {",
+									"        let description = data[key].description;",
+									"        pm.expect(description.toLowerCase()).to.include('water');",
+									"    }",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/search?filters[0][operator]=LIKE&filters[0][value]=water&filters[0][condition]=",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"search"
+							],
+							"query": [
+								{
+									"key": "filters[0][operator]",
+									"value": "LIKE"
+								},
+								{
+									"key": "filters[0][value]",
+									"value": "water"
+								},
+								{
+									"key": "filters[0][condition]",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well search on multiple keywords nhs_links=true",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response data related Links to contain the NHS api endpoint in the url value\", function () {",
+									"    let data = pm.response.json();",
+									"    for (let key in data) {",
+									"        let relatedLinks = data[key].relatedLink;",
+									"",
+									"        if (relatedLinks) {",
+									"            relatedLinks.forEach(function(links) {",
+									"                pm.expect(links.url).to.include(\"https://www.nhs.uk\");",
+									"            });",
+									"        }",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Searched for value is found in the description property of the response content\", function () {",
+									"    let data = pm.response.json();",
+									"    for (let key in data) {",
+									"        let description = data[key].description;",
+									"        pm.expect(description.toLowerCase()).to.include('muscle');",
+									"        pm.expect(description.toLowerCase()).to.include('strength');",
+									"    }",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/search?filters[0][operator]=LIKE&filters[0][value]=muscle&filters[0][condition]=AND&filters[1][operator]=LIKE&filters[1][value]=strength&filters[1][condition]=&nhs_links=true",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"search"
+							],
+							"query": [
+								{
+									"key": "filters[0][operator]",
+									"value": "LIKE"
+								},
+								{
+									"key": "filters[0][value]",
+									"value": "muscle"
+								},
+								{
+									"key": "filters[0][condition]",
+									"value": "AND"
+								},
+								{
+									"key": "filters[1][operator]",
+									"value": "LIKE"
+								},
+								{
+									"key": "filters[1][value]",
+									"value": "strength"
+								},
+								{
+									"key": "filters[1][condition]",
+									"value": ""
+								},
+								{
+									"key": "nhs_links",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/live-well  search single keyword no_html=true & search_all=true",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let keyword = 'running';",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response data related Links to contain the MRD api endpoint in the url value\", function () {",
+									"    var jsonData = pm.response.json();",
+									"",
+									"    for (let i = 0; i < jsonData.length; i++) {",
+									"        var relatedLinks = jsonData[i].relatedLink;",
+									"",
+									"        if (relatedLinks) {",
+									"            relatedLinks.forEach(function(links) {",
+									"                pm.expect(links.url).to.include(\"https://www.nhs.uk\");",
+									"            });",
+									"        }",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Searched for value is found in either the description property of the response content, or in at least in one text property or it's links inside the mainEntityOfPage of the overall data.\", function () {",
+									"    let data = pm.response.json();",
+									"    let containsKeyword = false;",
+									"    let foundKeywordArray = [];",
+									"",
+									"    //check each individual response item that comes back",
+									"    for (let outerKey in data) {",
+									"        let description = data[outerKey].description;",
+									"        let mainEntityOfPage = data[outerKey].mainEntityOfPage;",
+									"",
+									"        //at least one of the mainEntityOfPage items must contain the searched for keyword in either the description,",
+									"        //or one of the text fields within one of the inner mainEntityOfPage elements.",
+									"",
+									"        //check the description for the keyword.",
+									"        if (description.toLowerCase().includes(keyword)) {",
+									"            containsKeyword = true;",
+									"        }",
+									"",
+									"        //check the inner mainEntityOfPage elements for the keyword",
+									"        mainEntityLoop : for (let innerKey in mainEntityOfPage) {",
+									"            let innerMainEntityOfPage = mainEntityOfPage[innerKey].mainEntityOfPage;",
+									"            for (let innerInnerKey in innerMainEntityOfPage) {",
+									"",
+									"                //check - is the keyword to be found in the text field of this element. If,so success and we can breeak out of the main loop",
+									"                //and check the next item of data",
+									"                if (",
+									"                    innerMainEntityOfPage[innerInnerKey].hasOwnProperty(\"text\")",
+									"                    && innerMainEntityOfPage[innerInnerKey].text.length > 0",
+									"                    && innerMainEntityOfPage[innerInnerKey].text.toLowerCase().includes(keyword)",
+									"                ) {",
+									"                    containsKeyword = true;",
+									"                    break mainEntityLoop;",
+									"                }",
+									"",
+									"                if (innerMainEntityOfPage[innerInnerKey].hasOwnProperty(\"mainEntity\")) {",
+									"                    let mEntity = innerMainEntityOfPage[innerInnerKey].mainEntity;",
+									"",
+									"                    if (typeof mEntity === \"string\" && mEntity.toLowerCase().includes(keyword)) {",
+									"                        containsKeyword = true;",
+									"                        break mainEntityLoop;",
+									"                    }",
+									"",
+									"                    if (Array.isArray(mEntity)) {",
+									"                        for (let i = 0; i < mEntity.length; i++) {",
+									"                            let subMEntity = mEntity[i];",
+									"",
+									"                            // Chedck mainEntity.mainEntity.text",
+									"                            if (",
+									"                                subMEntity.hasOwnProperty(\"text\") &&",
+									"                                typeof subMEntity.text === \"string\" &&",
+									"                                subMEntity.text.toLowerCase().includes(keyword)",
+									"                            ) {",
+									"                                containsKeyword = true;",
+									"                                break mainEntityLoop;",
+									"                            }",
+									"",
+									"                            // mainEntity.mainEntity.text",
+									"                            if (",
+									"                                subMEntity.hasOwnProperty(\"mainEntity\") &&",
+									"                                typeof subMEntity.mainEntity === \"string\" &&",
+									"                                subMEntity.mainEntity.toLowerCase().includes(keyword)",
+									"                            ) {",
+									"                                containsKeyword = true;",
+									"                                break mainEntityLoop;",
+									"                            }",
+									"                        }",
+									"                    }",
+									"                }",
+									"",
+									"                //if we didn't find the keyword in the text field, the keyword might be found in the links since they have been removed from the text and added to",
+									"                //the links array as part of the formatting process. If we find the keyword there, then we can break out of the main loop and check the next item of data",
+									"                if (",
+									"                    innerMainEntityOfPage[innerInnerKey].hasOwnProperty(\"links\")",
+									"                    && innerMainEntityOfPage[innerInnerKey].links.length > 0",
+									"                    ) {",
+									"                        let links = innerMainEntityOfPage[innerInnerKey].links;",
+									"                        for (let link in links) {",
+									"                           if (links[link].includes(keyword)) {",
+									"                                containsKeyword = true;",
+									"                                break mainEntityLoop;",
+									"                            } ",
+									"                        }",
+									"                }",
+									"",
+									"            }",
+									"        }",
+									"",
+									"        //having checked for the keyword in the description, the text field and the links array, add the containsKeyword value to the foundKeywordArray and reset ",
+									"        //it to false to check the next item in the data",
+									"        foundKeywordArray.push(containsKeyword);",
+									"        containsKeyword = false;",
+									"",
+									"    }",
+									"",
+									"    //the foundKeywordArray should now only contains true values",
+									"    foundKeywordArray.forEach(function(foundKeyword){",
+									"        pm.expect(foundKeyword).to.be.true;",
+									"    })",
+									"",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ACCESS_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Mrd-Scopes",
+								"value": "live-well",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{MRD_API_URL}}/live-well/search?filters[0][operator]=LIKE&filters[0][value]=running&filters[0][condition]=&nhs_links=true&no_html=true&search_all=true",
+							"host": [
+								"{{MRD_API_URL}}"
+							],
+							"path": [
+								"live-well",
+								"search"
+							],
+							"query": [
+								{
+									"key": "filters[0][operator]",
+									"value": "LIKE"
+								},
+								{
+									"key": "filters[0][value]",
+									"value": "running"
+								},
+								{
+									"key": "filters[0][condition]",
+									"value": ""
+								},
+								{
+									"key": "nhs_links",
+									"value": "true"
+								},
+								{
+									"key": "no_html",
+									"value": "true"
+								},
+								{
+									"key": "search_all",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.sendRequest({",
+					"    url: pm.environment.get(\"OAUTH_URL\")+\"/oauth2/token\",",
+					"    method: 'POST',",
+					"    header: {",
+					"        'Accept': 'application/json',",
+					"        'Content-Type': 'application/x-www-form-urlencoded',",
+					"        'Authorization': \"Basic \"+pm.environment.get(\"OAUTH_MRD_CLIENT_AUTH_BASIC\")",
+					"    },",
+					"    body: {",
+					"        mode: 'urlencoded',",
+					"        urlencoded: [",
+					"            {key: 'grant_type', value: 'client_credentials'},",
+					"            {key: 'scope', value: 'live-well'}",
+					"        ]",
+					"    }",
+					"},",
+					"    (err, res) => {",
+					"        // Set ACCESS_TOKEN",
+					"        pm.variables.set(\"ACCESS_TOKEN\", res.json().access_token)",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+        "variable": [
+                {
+                        "key": "MRD_API_URL",
+                        "value": "https://api-mrd.mydex.org"
+                }
+        ]
+}
